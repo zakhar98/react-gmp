@@ -1,0 +1,6 @@
+{
+  "testRegex": "((\\.|/*.)(spec))\\.js?$",
+  "bail": 1,
+  "testTimeout": 2000,
+  "verbose": true
+}
