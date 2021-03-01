@@ -1,0 +1,19 @@
+.error-page {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  color: white;
+
+  .error-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    i {
+      font-size: 62px;
+    }
+  }
+}
