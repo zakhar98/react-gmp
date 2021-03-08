@@ -1,0 +1,24 @@
+.sort-panel {
+  display: flex;
+  color: white;
+  font-size: 20px;
+  font-weight: 400;
+  padding: 16px 0px;
+  text-transform: uppercase;
+
+  &__select {
+    cursor: pointer;
+    padding-left: 16px;
+
+    & i {
+      color: #f65261;
+      padding-left: 8px;
+      line-height: 50%;
+      vertical-align: 3px;
+    }
+  }
+
+  &__description {
+    color: #8b8b8b;
+  }
+}

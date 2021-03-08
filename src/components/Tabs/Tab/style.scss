@@ -1,0 +1,17 @@
+.tab {
+  color: white;
+  font-size: 20px;
+  font-weight: 400;
+  padding: 16px 12px;
+  text-transform: uppercase;
+
+  &.active {
+    color: #f65261;
+    border-bottom: 3px solid #f65261;
+  }
+
+  &:hover {
+    color: #f65261;
+    cursor: pointer;
+  }
+}
