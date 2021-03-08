@@ -4,8 +4,6 @@ import movies from "./movies.js";
 
 export default function MoviesListContainer() {
   return (
-    <>
-      <MoviesList movies={movies} totalCount={movies.length} />
-    </>
+    <MoviesList movies={movies} totalCount={movies.length} />
   );
 }

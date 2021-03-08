@@ -5,12 +5,10 @@ import ErrorBoundary from "../ErrorBoundary/ErrorBoundary.js";
 
 export default function App() {
   return (
-    <>
-      <ErrorBoundary>
-        <PageLayout>
-          <HomepageHeader />
-        </PageLayout>
-      </ErrorBoundary>
-    </>
+    <ErrorBoundary>
+      <PageLayout>
+        <HomepageHeader />
+      </PageLayout>
+    </ErrorBoundary>
   );
 }

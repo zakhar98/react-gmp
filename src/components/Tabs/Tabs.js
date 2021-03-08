@@ -12,7 +12,7 @@ export default function Tabs({tabs, activeTabIndex, onClickTabItem}) {
             tabIndex={i}
             isActive={activeTabIndex ? i === activeTabIndex: i === 0}
             onClick={onClickTabItem}
-            key={i}
+            key={tab.name}
           />
         ))}
     </div>
