@@ -36,4 +36,17 @@
     line-height: 26px;
     text-align: center;
   }
+
+  &__menu {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    color: white;
+    top: 16px;
+    right: 18px;
+  }
+
+  &:hover .movie-card__menu  {
+    display: block;
+  }
 }

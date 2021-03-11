@@ -1,0 +1,13 @@
+.movie-card-menu {
+  &__button {
+    width: 29px;
+    height: 29px;
+    text-align: center;
+    background: #232323;
+    border-radius: 50%;
+
+    & i {
+      vertical-align: -6px;
+    }
+  }
+}

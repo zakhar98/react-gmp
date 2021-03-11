@@ -1,0 +1,10 @@
+.delete-movie-modal {
+  &__content {
+    margin-bottom: 24px;
+  }
+
+  &__footer {
+    justify-content: flex-end;
+    display: flex;
+  }
+}
