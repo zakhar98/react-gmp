@@ -1,6 +1,7 @@
 import React from "react";
 import Logo from "../Logo/Logo.js";
 import SearchBar from "../SearchBar/SearchBar.js";
+import AddMovieButton from "./AddMovieButton/AddMovieButton.js";
 import "./style.scss";
 
 export default function HomepageHeader() {
@@ -8,7 +9,7 @@ export default function HomepageHeader() {
     <header className="homepage-header">
       <div className="homepage-header__top">
         <Logo />
-        <button className="homepage-header__add-movie-button"> + add movie</button>
+        <AddMovieButton />
       </div>
       <div className="homepage-header__content">
         <div className="homepage-header__content-text">FIND YOUR MOVIE</div>

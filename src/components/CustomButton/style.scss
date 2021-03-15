@@ -1,0 +1,18 @@
+.button {
+  cursor: pointer;
+  font-size: 22px;
+  border: 2px solid #f65261;
+  border-radius: 4px;
+  padding: 8px 24px;
+  outline: none;
+
+  &.button_contained {
+    background-color: #f65261;
+    color: white;
+  }
+
+  &.button_outlined {
+    background-color: transparent;
+    color: #f65261;
+  }
+}

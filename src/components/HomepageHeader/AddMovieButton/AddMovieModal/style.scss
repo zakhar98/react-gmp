@@ -1,0 +1,14 @@
+.add-movie-form {
+  &__content > * {
+    margin-bottom: 28px;
+  }
+
+  &__footer {
+    justify-content: flex-end;
+    display: flex;
+  }
+
+  &__footer > * {
+    margin-left: 16px;
+  }
+}

@@ -1,0 +1,48 @@
+.multiselect {
+  .MuiFormControl-root {
+    width: 100%;
+
+    .MuiInput-root.MuiInput-underline {
+      &::before {
+        display: none;
+      }
+
+      &::after {
+        display: none;
+      }
+    }
+
+    .MuiFormLabel-root.MuiInputLabel-root {
+      color: #f65261;
+      text-transform: uppercase;
+      font-size: 18px;
+      font-weight: 500;
+      position: static;
+      transition: none;
+      transform: none;
+    }
+
+    .MuiSelect-icon {
+      color: #f65261;
+    }
+
+    .MuiSelect-select.MuiSelect-selectMenu.MuiInputBase-input {
+      border-radius: 4px;
+      color: white;
+      padding: 12px;
+      background-color: rgba(255, 255, 255, .1);
+      font-family: "Work Sans", sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+    }
+  }
+}
+
+.MuiPaper-root.MuiMenu-paper.MuiPopover-paper {
+  color: #ffffff;
+  background-color: #232323;
+
+  .MuiCheckbox-colorSecondary {
+    color: #ffffff;
+  }
+}
