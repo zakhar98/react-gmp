@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import CustomButton from "../CustomButton/CustomButton.js";
 import CustomInput from "../CustomInput/CustomInput.js";
@@ -27,138 +27,120 @@ const genreOptions = [
   }
 ];
 
-class EditMovieModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      movie: {
-        title: "",
-        releaseDate: "",
-        movieUrl: "",
-        genre: [],
-        overview: "",
-        runtime: "",
-      },
-    };
+export default function EditMovieModal({movieId, editMovie}) {
+  const [movie, setMovie] = useState({
+    title: "",
+    releaseDate: "",
+    movieUrl: "",
+    genre: [],
+    overview: "",
+    runtime: "",
+  });
 
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleReset = this.handleReset.bind(this);
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     // fetch movie data by id
     // toggle isFetching flag if needed
-    const movie = fetchMovie(this.props.movieId);
-    this.setState({movie});
-  }
+    const movie = fetchMovie(movieId);
+    setMovie(movie);
+  }, []);
 
-  handleInputChange(event) {
-    const target = event.target;
+  const handleInputChange = (e) => {
+    const target = e.target;
     const value = target.value;
     const name = target.name;
 
-    this.setState({
-      movie: {
-        ...this.state.movie,
-        [name]: value,
-      },
-    });
+    setMovie({...movie, [name]: value})
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    this.props.editMovie(this.state.movie)
+    editMovie(movie);
   }
 
-  handleReset(event) {
-    event.preventDefault();
+  const handleReset = (e) => {
+    e.preventDefault();
 
-    this.setState({movie: {
+    setMovie({
       title: "",
       releaseDate: "",
       movieUrl: "",
       genre: [],
       overview: "",
       runtime: "",
-    }});
+    });
   }
 
-  render() {
-    return (
-      <form
-        className="edit-movie-form"
-        onSubmit={this.handleSubmit}
-        onReset={this.handleReset}
-      >
-        <div className="edit-movie-form__content">
-          <CustomInput
-            label="Title"
-            name="title"
-            id="title"
-            type="text"
-            value={this.state.movie.title}
-            placeholder="Title here"
-            onChange={this.handleInputChange}
-          />
-          <CustomInput
-            label="Release date"
-            name="releaseDate"
-            id="release-date"
-            type="date"
-            value={this.state.movie.releaseDate}
-            placeholder="Select Date"
-            onChange={this.handleInputChange}
-          />
-          <CustomInput
-            label="Movie URL"
-            name="movieUrl"
-            id="movie-url"
-            type="url"
-            value={this.state.movie.movieUrl}
-            placeholder="Movie URL here"
-            onChange={this.handleInputChange}
-          />
-          <CustomMultiselect
-            label="Genre"
-            name="genre"
-            placeholder="Select Genre"
-            options={genreOptions}
-            value={this.state.movie.genre}
-            onChange={this.handleInputChange}
-          />
-          <CustomInput
-            label="Overview"
-            name="overview"
-            id="overview"
-            type="text"
-            value={this.state.movie.overview}
-            placeholder="Overview here"
-            onChange={this.handleInputChange}
-          />
-          <CustomInput
-            label="Runtime"
-            name="runtime"
-            id="runtime"
-            type="text"
-            value={this.state.movie.runtime}
-            placeholder="Runtime here"
-            onChange={this.handleInputChange}
-          />
-        </div>
-        <div className="edit-movie-form__footer">
-          <CustomButton type="reset" outlined>RESET</CustomButton>
-          <CustomButton type="submit">SUBMIT</CustomButton>
-        </div>
-      </form>
-    );
-  }
+  return (
+    <form
+      className="edit-movie-form"
+      onSubmit={handleSubmit}
+      onReset={handleReset}
+    >
+      <div className="edit-movie-form__content">
+        <CustomInput
+          label="Title"
+          name="title"
+          id="title"
+          type="text"
+          value={movie.title}
+          placeholder="Title here"
+          onChange={handleInputChange}
+        />
+        <CustomInput
+          label="Release date"
+          name="releaseDate"
+          id="release-date"
+          type="date"
+          value={movie.releaseDate}
+          placeholder="Select Date"
+          onChange={handleInputChange}
+        />
+        <CustomInput
+          label="Movie URL"
+          name="movieUrl"
+          id="movie-url"
+          type="url"
+          value={movie.movieUrl}
+          placeholder="Movie URL here"
+          onChange={handleInputChange}
+        />
+        <CustomMultiselect
+          label="Genre"
+          name="genre"
+          placeholder="Select Genre"
+          options={genreOptions}
+          value={movie.genre}
+          onChange={handleInputChange}
+        />
+        <CustomInput
+          label="Overview"
+          name="overview"
+          id="overview"
+          type="text"
+          value={movie.overview}
+          placeholder="Overview here"
+          onChange={handleInputChange}
+        />
+        <CustomInput
+          label="Runtime"
+          name="runtime"
+          id="runtime"
+          type="text"
+          value={movie.runtime}
+          placeholder="Runtime here"
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="edit-movie-form__footer">
+        <CustomButton type="reset" outlined>RESET</CustomButton>
+        <CustomButton type="submit">SUBMIT</CustomButton>
+      </div>
+    </form>
+  );
 }
 
 EditMovieModal.propTypes = {
   movieId: PropTypes.number,
   editMovie: PropTypes.func.isRequired,
 };
-
-export default EditMovieModal;
