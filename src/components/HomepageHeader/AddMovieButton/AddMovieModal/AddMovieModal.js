@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {useState} from "react";
 import PropTypes from "prop-types";
 import CustomButton from "../../../CustomButton/CustomButton.js";
 import CustomInput from "../../../CustomInput/CustomInput.js";
@@ -18,60 +18,55 @@ const genreOptions = [
   }
 ];
 
-class AddMovieModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: "",
-      releaseDate: "",
-      movieUrl: "",
-      genre: [],
-      overview: "",
-      runtime: "",
+export default function AddMovieModal({onClose}) {
+    const [movie, setMovie] = useState(
+      {
+        title: "",
+        releaseDate: "",
+        movieUrl: "",
+        genre: [],
+        overview: "",
+        runtime: "",
+      }
+    );
+
+    const handleInputChange = (e) => {
+      const target = e.target;
+      const value = target.value;
+      const name = target.name;
+
+      setMovie({
+        ...movie,
+        [name]: value
+      });
     };
 
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleReset = this.handleReset.bind(this);
-  }
+    const handleSubmit = (e) => {
+      e.preventDefault();
 
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
+      // Dispatch create movie action
 
-    this.setState({
-      [name]: value
-    });
-  }
+      onClose();
+    }
 
-  handleSubmit(event) {
-    event.preventDefault();
+    const handleReset = (e) => {
+      e.preventDefault();
+  
+      setMovie({
+        title: "",
+        releaseDate: "",
+        movieUrl: "",
+        genre: [],
+        overview: "",
+        runtime: "",
+      });
+    }
 
-    // Dispatch create movie action
-
-    this.props.onClose();
-  }
-
-  handleReset(event) {
-    event.preventDefault();
-
-    this.setState({
-      title: "",
-      releaseDate: "",
-      movieUrl: "",
-      genre: [],
-      overview: "",
-      runtime: "",
-    });
-  }
-
-  render() {
     return (
       <form
         className="add-movie-form"
-        onSubmit={this.handleSubmit}
-        onReset={this.handleReset}
+        onSubmit={handleSubmit}
+        onReset={handleReset}
       >
         <div className="add-movie-form__content">
           <CustomInput
@@ -79,53 +74,53 @@ class AddMovieModal extends Component {
             name="title"
             id="title"
             type="text"
-            value={this.state.title}
+            value={movie.title}
             placeholder="Title here"
-            onChange={this.handleInputChange}
+            onChange={handleInputChange}
           />
           <CustomInput
             label="Release date"
             name="releaseDate"
             id="release-date"
             type="date"
-            value={this.state.releaseDate}
+            value={movie.releaseDate}
             placeholder="Select Date"
-            onChange={this.handleInputChange}
+            onChange={handleInputChange}
           />
           <CustomInput
             label="Movie URL"
             name="movieUrl"
             id="movie-url"
             type="url"
-            value={this.state.movieUrl}
+            value={movie.movieUrl}
             placeholder="Movie URL here"
-            onChange={this.handleInputChange}
+            onChange={handleInputChange}
           />
           <CustomMultiselect
             label="Genre"
             name="genre"
             placeholder="Select Genre"
             options={genreOptions}
-            value={this.state.genre}
-            onChange={this.handleInputChange}
+            value={movie.genre}
+            onChange={handleInputChange}
           />
           <CustomInput
             label="Overview"
             name="overview"
             id="overview"
             type="text"
-            value={this.state.overview}
+            value={movie.overview}
             placeholder="Overview here"
-            onChange={this.handleInputChange}
+            onChange={handleInputChange}
           />
           <CustomInput
             label="Runtime"
             name="runtime"
             id="runtime"
             type="text"
-            value={this.state.runtime}
+            value={movie.runtime}
             placeholder="Runtime here"
-            onChange={this.handleInputChange}
+            onChange={handleInputChange}
           />
         </div>
         <div className="add-movie-form__footer">
@@ -135,10 +130,7 @@ class AddMovieModal extends Component {
       </form>
     );
   }
-}
-
-AddMovieModal.propTypes = {
-  onClose: PropTypes.func,
-};
-
-export default AddMovieModal;
+  
+  AddMovieModal.propTypes = {
+    onClose: PropTypes.func,
+  };
