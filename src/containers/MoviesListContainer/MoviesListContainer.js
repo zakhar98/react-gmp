@@ -1,15 +1,23 @@
 import React, {useState} from "react";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
 import MoviesList from "../../components/MoviesList/MoviesList.js";
 import Modal from "../../components/Modal/Modal.js";
 import DeleteMovieModal from "../../components/DeleteMovieModal/DeleteMovieModal.js";
 import EdiMovieModal from "../../components/EditMovieModal/EditMovieModal.js";
-import movies from "./movies.js";
+import useComponentDidMount from "../../utils/hooks.js";
+import {fetchMovies, deleteMovie, editMovie} from "../../redux/actions/movies-list_actions.js"
 
-export default function MoviesListContainer() {
+function MoviesListContainer(
+  {movies, totalCount, searchParams, fetchMovies, updateMovie, deleteMovieById}) {
   const [isDeleteModalShown, setIsDeleteModalShown] = useState(false);
   const [isEditModalShown, setIsEditModalShown] = useState(false);
   const [movieToDeleteId, setMovieToDeleteId] = useState(null);
   const [movieToEditId, setMovieToEditId] = useState(null);
+ 
+  useComponentDidMount(() => {
+    fetchMovies(searchParams);
+  });
 
   const showDeleteModal = (id) => {
     setIsDeleteModalShown(true);
@@ -21,9 +29,9 @@ export default function MoviesListContainer() {
     setMovieToDeleteId(null);
   }
 
-  const deleteMovie = () => {
-    // Delete movie with id <movieToDeleteId>
-    // Refresh movies list
+  const deleteMovie = async () => {
+    await deleteMovieById(movieToDeleteId);
+    await fetchMovies(searchParams);
 
     hideDeleteModal();
   }
@@ -38,9 +46,9 @@ export default function MoviesListContainer() {
     setMovieToEditId(null);
   }
 
-  const editMovie = () => {
-    // Update movie with new data
-    // Refresh movies list
+  const editMovie = async (movie) => {
+    await updateMovie(movie)
+    await fetchMovies(searchParams);
 
     hideEditModal();
   }
@@ -49,7 +57,7 @@ export default function MoviesListContainer() {
     <>
       <MoviesList
         movies={movies}
-        totalCount={movies.length}
+        totalCount={totalCount}
         showDeleteModal={showDeleteModal}
         showEditModal={showEditModal} />
       <Modal
@@ -69,3 +77,38 @@ export default function MoviesListContainer() {
     </>
   );
 }
+
+function mapStateToProps(state) {
+  const {moviesList: {
+    movies: {
+      items,
+      totalCount,
+    },
+    searchParams,
+  }} = state;
+
+  return {
+    movies: items,
+    totalCount,
+    searchParams,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchMovies: (params) => {return dispatch(fetchMovies(params))},
+    deleteMovieById: (movieId) => {return dispatch(deleteMovie(movieId))},
+    updateMovie: (movie) => {return dispatch(editMovie(movie))},
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MoviesListContainer);
+
+MoviesListContainer.propTypes = {
+  movies: PropTypes.array.isRequired,
+  totalCount: PropTypes.number.isRequired,
+  searchParams: PropTypes.object.isRequired,
+  fetchMovies: PropTypes.func.isRequired,
+  updateMovie: PropTypes.func.isRequired,
+  deleteMovieById: PropTypes.func.isRequired,
+};

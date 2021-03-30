@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import Tab from "./Tab/Tab.js";
 import "./style.scss";
 
-export default function Tabs({tabs, activeTabIndex, onClickTabItem}) {
+export default function Tabs({tabs, activeTabName, onClickTabItem}) {
   return (
     <div className="tabs">
         {tabs.map((tab, i) => (
           <Tab
             name={tab.name}
-            tabIndex={i}
-            isActive={activeTabIndex ? i === activeTabIndex: i === 0}
+            isActive={tab.name === activeTabName}
             onClick={onClickTabItem}
             key={tab.name}
           />
@@ -21,6 +20,6 @@ export default function Tabs({tabs, activeTabIndex, onClickTabItem}) {
 
 Tabs.propTypes = {
   tabs: PropTypes.array.isRequired,
-  activeTabIndex: PropTypes.number,
+  activeTabName: PropTypes.string,
   onClickTabItem: PropTypes.func.isRequired,
 };
