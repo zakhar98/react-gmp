@@ -1,25 +1,24 @@
 
 import React, {useState} from "react";
+import PropTypes from 'prop-types';
+import {connect} from "react-redux";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import {fetchMovies} from "../../redux/actions/movies-list_actions.js"
 import "./style.scss";
 
 const sortOptions = [
   {
-    value: 'releaseDate',
+    value: 'release_date',
     name: 'Release Date',
   }, {
-    value: 'title',
-    name: 'Title',
-  }, {
-    value: 'genre',
-    name: 'Genre',
+    value: 'vote_average',
+    name: 'Rating',
   }
 ];
 
-export default function SortPanel() {
+function SortPanel({searchParams, fetchMovies}) {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [sortKey, setSortKey] = useState('releaseDate');
 
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
@@ -30,14 +29,13 @@ export default function SortPanel() {
   }
 
   const changeSortKey = (value) => {
-    setSortKey(value);
     handleClose();
 
-    // Dispatch refresh movies list action
+    fetchMovies({...searchParams, sortBy: value})
   }
 
   const displayName = sortOptions
-    .find(({value}) => value === sortKey).name;
+    .find(({value}) => value === searchParams.sortBy).name;
 
   return (
     <div className="sort-panel">
@@ -67,3 +65,20 @@ export default function SortPanel() {
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  const {moviesList: {
+    searchParams,
+  }} = state;
+
+  return {
+    searchParams,
+  }
+}
+
+export default connect(mapStateToProps, { fetchMovies })(SortPanel);
+
+SortPanel.propTypes = {
+  searchParams: PropTypes.object.isRequired,
+  fetchMovies: PropTypes.func.isRequired,
+};

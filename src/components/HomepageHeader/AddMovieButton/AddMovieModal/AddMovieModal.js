@@ -1,39 +1,33 @@
 import React, {useState} from "react";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import CustomButton from "../../../CustomButton/CustomButton.js";
 import CustomInput from "../../../CustomInput/CustomInput.js";
 import CustomMultiselect from "../../../CustomMultiselect/CustomMultiselect.js";
+import {genreOptions} from "../../../../utils/constants.js";
+import {createMovie, fetchMovies} from "../../../../redux/actions/movies-list_actions.js"
 import "./style.scss";
 
-const genreOptions = [
-  {
-    name: 'Drama',
-    value: 'drama',
-  }, {
-    name: 'Crime',
-    value: 'crime',
-  }, {
-    name: 'Comedy',
-    value: 'comedy',
-  }
-];
-
-export default function AddMovieModal({onClose}) {
+function AddMovieModal(
+  {searchParams, createMovie, fetchMovies, onClose}) {
     const [movie, setMovie] = useState(
       {
         title: "",
-        releaseDate: "",
-        movieUrl: "",
-        genre: [],
+        release_date: "",
+        poster_path: "",
+        genres: [],
         overview: "",
-        runtime: "",
+        runtime: 0,
+
+        tagline: "Tagline",
       }
     );
 
     const handleInputChange = (e) => {
       const target = e.target;
-      const value = target.value;
       const name = target.name;
+      const value = name === 'runtime' ? 
+        Number(target.value) : target.value;
 
       setMovie({
         ...movie,
@@ -41,10 +35,11 @@ export default function AddMovieModal({onClose}) {
       });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
       e.preventDefault();
 
-      // Dispatch create movie action
+      await createMovie(movie);
+      fetchMovies(searchParams);
 
       onClose();
     }
@@ -54,11 +49,13 @@ export default function AddMovieModal({onClose}) {
   
       setMovie({
         title: "",
-        releaseDate: "",
-        movieUrl: "",
-        genre: [],
+        release_date: "",
+        poster_path: "",
+        genres: [],
         overview: "",
-        runtime: "",
+        runtime: 0,
+
+        tagline: "Tagline",
       });
     }
 
@@ -80,28 +77,28 @@ export default function AddMovieModal({onClose}) {
           />
           <CustomInput
             label="Release date"
-            name="releaseDate"
+            name="release_date"
             id="release-date"
             type="date"
-            value={movie.releaseDate}
+            value={movie.release_date}
             placeholder="Select Date"
             onChange={handleInputChange}
           />
           <CustomInput
             label="Movie URL"
-            name="movieUrl"
+            name="poster_path"
             id="movie-url"
             type="url"
-            value={movie.movieUrl}
+            value={movie.poster_path}
             placeholder="Movie URL here"
             onChange={handleInputChange}
           />
           <CustomMultiselect
             label="Genre"
-            name="genre"
+            name="genres"
             placeholder="Select Genre"
             options={genreOptions}
-            value={movie.genre}
+            value={movie.genres}
             onChange={handleInputChange}
           />
           <CustomInput
@@ -130,7 +127,31 @@ export default function AddMovieModal({onClose}) {
       </form>
     );
   }
-  
+
+  function mapStateToProps(state) {
+    const {moviesList: {
+      searchParams,
+    }} = state;
+
+    return {
+      searchParams,
+    }
+  }
+
+  function mapDispatchToProps(dispatch) {
+    return {
+      createMovie: async (movie) => {
+        return dispatch(createMovie(movie))
+      },
+      fetchMovies: (params) => {dispatch(fetchMovies(params))},
+    }
+  }
+
+  export default connect(mapStateToProps, mapDispatchToProps)(AddMovieModal);
+
   AddMovieModal.propTypes = {
+    searchParams: PropTypes.object.isRequired,
+    createMovie: PropTypes.func.isRequired,
+    fetchMovies: PropTypes.func.isRequired,
     onClose: PropTypes.func,
   };

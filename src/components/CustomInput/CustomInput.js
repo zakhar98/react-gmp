@@ -22,7 +22,10 @@ export default function CustomInput(
 CustomInput.propTypes = {
   name: PropTypes.string,
   type: PropTypes.string,
-  value: PropTypes.string,
+  value:  PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   label: PropTypes.string,
   id: PropTypes.string,
   placeholder: PropTypes.string,

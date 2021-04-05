@@ -1,53 +1,38 @@
 import React, {useEffect, useState} from "react";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import CustomButton from "../CustomButton/CustomButton.js";
 import CustomInput from "../CustomInput/CustomInput.js";
 import CustomMultiselect from "../CustomMultiselect/CustomMultiselect.js";
+import {genreOptions} from "../../utils/constants.js";
+import {fetchMovieToEdit, resetModalsState} from "../../redux/actions/modals_actions.js";
 import "./style.scss";
 
-const fetchMovie = () => ({
-  title: "Some movie",
-  releaseDate: "2018-07-22",
-  movieUrl: "https://thumbs.dfs.ivi.ru/storage38/contents/a/b/f291cdd28726eb4d9f54e0b25a40b5.jpg",
-  genre: ["comedy", "crime"],
-  overview: "Movie overview",
-  runtime: "120 min",
-});
-
-const genreOptions = [
-  {
-    name: 'Drama',
-    value: 'drama',
-  }, {
-    name: 'Crime',
-    value: 'crime',
-  }, {
-    name: 'Comedy',
-    value: 'comedy',
-  }
-];
-
-export default function EditMovieModal({movieId, editMovie}) {
+function EditMovieModal(
+  {movieId, movieDetails, fetchMovie, editMovie, resetModalsState}) {
   const [movie, setMovie] = useState({
     title: "",
-    releaseDate: "",
-    movieUrl: "",
-    genre: [],
+    release_date: "",
+    poster_path: "",
+    genres: [],
     overview: "",
-    runtime: "",
+    runtime: 0,
   });
 
   useEffect(() => {
-    // fetch movie data by id
-    // toggle isFetching flag if needed
-    const movie = fetchMovie(movieId);
-    setMovie(movie);
+    const fetchMovieToEdit = async () => {
+      const movie = await fetchMovie(movieId);
+      setMovie(movie);
+    };
+
+    fetchMovieToEdit();
   }, []);
 
   const handleInputChange = (e) => {
     const target = e.target;
-    const value = target.value;
     const name = target.name;
+    const value = name === 'runtime' ? 
+      Number(target.value) : target.value;
 
     setMovie({...movie, [name]: value})
   }
@@ -56,19 +41,13 @@ export default function EditMovieModal({movieId, editMovie}) {
     e.preventDefault();
 
     editMovie(movie);
+    resetModalsState();
   }
 
   const handleReset = (e) => {
     e.preventDefault();
 
-    setMovie({
-      title: "",
-      releaseDate: "",
-      movieUrl: "",
-      genre: [],
-      overview: "",
-      runtime: "",
-    });
+    setMovie(movieDetails);
   }
 
   return (
@@ -89,28 +68,28 @@ export default function EditMovieModal({movieId, editMovie}) {
         />
         <CustomInput
           label="Release date"
-          name="releaseDate"
+          name="release_date"
           id="release-date"
           type="date"
-          value={movie.releaseDate}
+          value={movie.release_date}
           placeholder="Select Date"
           onChange={handleInputChange}
         />
         <CustomInput
           label="Movie URL"
-          name="movieUrl"
+          name="poster_path"
           id="movie-url"
           type="url"
-          value={movie.movieUrl}
+          value={movie.poster_path}
           placeholder="Movie URL here"
           onChange={handleInputChange}
         />
         <CustomMultiselect
           label="Genre"
-          name="genre"
+          name="genres"
           placeholder="Select Genre"
           options={genreOptions}
-          value={movie.genre}
+          value={movie.genres}
           onChange={handleInputChange}
         />
         <CustomInput
@@ -126,7 +105,7 @@ export default function EditMovieModal({movieId, editMovie}) {
           label="Runtime"
           name="runtime"
           id="runtime"
-          type="text"
+          type="number"
           value={movie.runtime}
           placeholder="Runtime here"
           onChange={handleInputChange}
@@ -140,7 +119,33 @@ export default function EditMovieModal({movieId, editMovie}) {
   );
 }
 
+function mapStateToProps(state) {
+  const {modals: {
+    editMovieModal: {
+      movie: movieDetails,
+    },
+  }} = state;
+
+  return {
+    movieDetails,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchMovie: async (movieId) => {
+      return await dispatch(fetchMovieToEdit(movieId))
+    },
+    resetModalsState: () => {dispatch(resetModalsState())},
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditMovieModal);
+
 EditMovieModal.propTypes = {
   movieId: PropTypes.number,
   editMovie: PropTypes.func.isRequired,
+  movieDetails: PropTypes.object.isRequired,
+  fetchMovie: PropTypes.func.isRequired,
+  resetModalsState: PropTypes.func.isRequired,
 };

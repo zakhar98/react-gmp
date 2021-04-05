@@ -8,10 +8,9 @@ export default function App() {
   return (
     <ErrorBoundary>
       <PageLayout>
-        {/*<HomepageHeader /> 
-          Headers should be switched by the Router
-        */}
-        <MovieDetailsHeader />
+        <HomepageHeader /> 
+        {/*<MovieDetailsHeader />
+          Headers should be switched by the Router*/}
       </PageLayout>
     </ErrorBoundary>
   );

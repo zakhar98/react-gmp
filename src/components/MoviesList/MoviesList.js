@@ -13,9 +13,9 @@ export default function MoviesList({movies, totalCount, showDeleteModal, showEdi
         {movies.map((movie) => (
           <MovieCard
             title={movie.title}
-            releaseDate={movie.releaseDate}
-            imageUrl={movie.imageUrl}
-            genre={movie.genre}
+            releaseDate={movie.release_date}
+            imageUrl={movie.poster_path}
+            genres={movie.genres}
             key={movie.id}
             showDeleteModal={()=>showDeleteModal(movie.id)}
             showEditModal={()=>showEditModal(movie.id)}
