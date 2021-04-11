@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useField } from 'formik';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -9,8 +10,8 @@ import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import "./style.scss";
 
-export default function CustomMultiselect(
-  {name, value, options, label, onChange, placeholder}) {
+export default function CustomMultiselect({label, fieldName, options, placeholder}) {
+    const [field, meta, helpers] = useField(fieldName);
 
     const MenuProps = {
       variant: "menu",
@@ -18,16 +19,16 @@ export default function CustomMultiselect(
     };
 
     return (
-      <div className="multiselect">
+      <div className={`multiselect ${meta.error && meta.touched ? 'error': ''}`}>
         <FormControl>
-          <InputLabel id="demo-mutiple-checkbox-label">{label}</InputLabel>
+          <InputLabel id={`${field.name}-label`}>{label}</InputLabel>
           <Select
-            labelId="demo-mutiple-checkbox-label"
-            id="demo-mutiple-checkbox"
+            labelId={`${field.name}-label`}
+            id={field.name}
             multiple
-            value={value}
-            onChange={onChange}
-            name={name}
+            value={field.value}
+            onChange={e => helpers.setValue(e.target.value)}
+            onClose={() => helpers.setTouched(true)}
             input={<Input />}
             MenuProps={MenuProps}
             renderValue={(selected) => {
@@ -43,21 +44,20 @@ export default function CustomMultiselect(
             </MenuItem>
             {options.map((option) => (
               <MenuItem key={option.value} value={option.value}>
-                <Checkbox checked={value.indexOf(option.value) > -1} />
+                <Checkbox checked={field.value.indexOf(option.value) > -1} />
                 <ListItemText primary={option.name} />
               </MenuItem>
             ))}
           </Select>
         </FormControl>
+        {meta.error && meta.touched && <div className="multiselect__error-text">{meta.error}</div>}
       </div>
     );
 }
 
 CustomMultiselect.propTypes = {
-  name: PropTypes.string,
-  value: PropTypes.array.isRequired,
+  fieldName: PropTypes.string,
   options: PropTypes.array.isRequired,
   label: PropTypes.string,
-  onChange: PropTypes.func,
   placeholder: PropTypes.string,
 };

@@ -7,6 +7,10 @@
   }
 
   &__field {
+    &.error {
+      border: 2px solid #f65261;
+    }
+
     width: 100%;
     font-family: 'Work Sans', sans-serif;
     font-weight: 400;
@@ -30,5 +34,11 @@
   
   &__field[type="date"]::-webkit-calendar-picker-indicator:hover {
     opacity: 1
+  }
+
+  &__error-text {
+    color: #f65261;
+    font-size: 12px;
+    padding-top: 4px;
   }
 }

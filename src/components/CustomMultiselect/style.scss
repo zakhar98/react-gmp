@@ -36,6 +36,18 @@
       font-size: 18px;
     }
   }
+
+  &.error {
+    .MuiSelect-select.MuiSelect-selectMenu.MuiInputBase-input {
+      border: 2px solid #f65261;
+    }
+  }
+
+  &__error-text {
+    color: #f65261;
+    font-size: 12px;
+    padding-top: 4px;
+  }
 }
 
 .MuiPaper-root.MuiMenu-paper.MuiPopover-paper {
