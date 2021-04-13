@@ -20,7 +20,11 @@ export default function App() {
               <MovieDetailsHeader />
             </PageLayout>
           </Route>
-
+          <Route exact path="/search/:searchQuery">
+            <PageLayout>
+              <HomepageHeader />
+            </PageLayout>
+          </Route>
           <Route exact path="/">
             <PageLayout>
               <HomepageHeader />

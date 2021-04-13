@@ -1,5 +1,7 @@
 .search-bar {
-  display: flex;
+  &__form {
+    display: flex;
+  }
 
   &__input {
     font-family: 'Work Sans', sans-serif;
@@ -17,6 +19,8 @@
 
   &__button {
     color: white;
+    cursor: pointer;
+    outline: none;
     font-size: 25px;
     width: 220px;
     background-color: #f65261;
