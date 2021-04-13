@@ -1,6 +1,9 @@
 .movies-catalog {
+  display: flex;
+  flex-direction: column;
   border-top: 12px solid #555555;
   padding-left: 48px;
+  flex: auto;
 
   .nav-bar {
     display: flex;
