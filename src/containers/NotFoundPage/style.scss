@@ -1,0 +1,28 @@
+.not-found-page {
+  color: white;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &__content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+    padding-top: 40px;
+  }
+
+  &__text {
+    font-size: 32px;
+    font-weight: 300;
+  }
+
+  &__404 {
+    font-size: 220px;
+    font-weight: 600;
+  }
+
+  .logo {
+    padding: 24px 72px;
+  }
+}

@@ -30,6 +30,9 @@ export default function App() {
               <HomepageHeader />
             </PageLayout>
           </Route>
+          <Route path="*">
+            <NotFoundPage />
+          </Route>
         </Switch>
       </Router>
     </ErrorBoundary>
