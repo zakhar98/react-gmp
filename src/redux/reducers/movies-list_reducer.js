@@ -7,6 +7,8 @@ const initialState = {
   },
   fetching: false,
   searchParams: {
+    search: '',
+    searchBy: 'title',
     filter: [],
     sortBy: 'release_date',
     sortOrder: 'asc',

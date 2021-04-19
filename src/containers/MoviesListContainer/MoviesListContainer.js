@@ -6,6 +6,7 @@ import Modal from "../../components/Modal/Modal.js";
 import DeleteMovieModal from "../../components/DeleteMovieModal/DeleteMovieModal.js";
 import EdiMovieModal from "../../components/EditMovieModal/EditMovieModal.js";
 import useComponentDidMount from "../../utils/hooks.js";
+import {useParams} from "react-router-dom";
 import {fetchMovies, deleteMovie, editMovie} from "../../redux/actions/movies-list_actions.js"
 
 function MoviesListContainer(
@@ -14,9 +15,14 @@ function MoviesListContainer(
   const [isEditModalShown, setIsEditModalShown] = useState(false);
   const [movieToDeleteId, setMovieToDeleteId] = useState(null);
   const [movieToEditId, setMovieToEditId] = useState(null);
+
+  let { searchQuery } = useParams();
  
   useComponentDidMount(() => {
-    fetchMovies(searchParams);
+    fetchMovies({
+      ...searchParams,
+      search: searchQuery ?? searchParams.search,
+    });
   });
 
   const showDeleteModal = (id) => {
