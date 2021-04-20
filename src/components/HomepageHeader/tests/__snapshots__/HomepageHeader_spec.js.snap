@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HomepageHeader renders correctly 1`] = `
+<header
+  className="homepage-header"
+>
+  <div
+    className="homepage-header__top"
+  >
+    <Logo />
+    <AddMovieButton />
+  </div>
+  <div
+    className="homepage-header__content"
+  >
+    <div
+      className="homepage-header__content-text"
+    >
+      FIND YOUR MOVIE
+    </div>
+    <Memo(Connect(withRouter(SearchBar))) />
+  </div>
+</header>
+`;
