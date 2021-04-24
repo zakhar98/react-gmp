@@ -1,20 +1,20 @@
 import actionTypes from './actionTypes.js';
 import ApiService from '../../services/api_service.js';
 
-function fetchMovieDetailsStart() {
+export function fetchMovieDetailsStart() {
   return {
     type: actionTypes.FETCH_MOVIE_DETAILS_START,
   };
 }
 
-function fetchMovieDetailsSuccess(movie) {
+export function fetchMovieDetailsSuccess(movie) {
   return {
     type: actionTypes.FETCH_MOVIE_DETAILS_SUCCESS,
     payload: movie,
   };
 }
 
-function fetchMovieDetailsFailure(error) {
+export function fetchMovieDetailsFailure(error) {
   return {
     type: actionTypes.FETCH_MOVIE_DETAILS_FAILURE,
     payload: { error }
