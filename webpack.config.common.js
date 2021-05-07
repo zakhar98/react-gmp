@@ -1,12 +1,12 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require('path');
 
 module.exports = {
+  mode: process.env.NODE_ENV,
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: "/",
-    filename: '[name].[chunkhash].bundle.js',
+    filename: 'bundle.js',
   },
   module: {
     rules: [
@@ -16,10 +16,6 @@ module.exports = {
         use: [{
           loader: "babel-loader"
         }],
-      },
-      {
-        test: /\.scss$/i,
-        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
@@ -35,5 +31,4 @@ module.exports = {
       },
     ],
   },
-  plugins: [new HtmlWebpackPlugin({ template: "./src/index.html" })],
 };
